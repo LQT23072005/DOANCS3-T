@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">DOANCS3</string>
+
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="intro_title">Welcome to <font color="#39c7a5"> Digital Store </font>\n a <font color="#39c7a5"> Gateway </font>to the Latest Techs</string>
+    <string name="intro_sub_title" translatable="false"> Sign in to explore a wide range of cutting-edge \n
+        digital products Don\'t have an account yet? \n
+        Register now and enjoy a seamless \n
+        and secure shopping experience. </string>
+    <string name="signing">Alreadly have an account?<font color="#39c7a5"> Sign In</font></string>
+
+</resources>

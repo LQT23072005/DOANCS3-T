@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "627220200396",
+    "project_id": "firtprojact",
+    "storage_bucket": "firtprojact.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627220200396:android:fb785ad59b383a28dd3b69",
+        "android_client_info": {
+          "package_name": "com.example.doancs3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwo9dZuJc83FqNd6ChbMUuN13euryUePs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
