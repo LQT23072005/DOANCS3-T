@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.doancs3.databinding.ActivityIntroMainBinding
 
-class IntroMainActivity : AppCompatActivity() {
+class IntroMainActivity : BaseActivity() {
     private lateinit var binding: ActivityIntroMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

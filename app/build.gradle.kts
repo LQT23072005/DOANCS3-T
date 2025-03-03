@@ -57,4 +57,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    //vừa thêm đoạn 20:45
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
+
+
+
 }
