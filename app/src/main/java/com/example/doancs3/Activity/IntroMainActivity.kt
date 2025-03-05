@@ -1,8 +1,7 @@
-package com.example.doancs3
+package com.example.doancs3.Activity
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.example.doancs3.databinding.ActivityIntroMainBinding
 
 class IntroMainActivity : BaseActivity() {

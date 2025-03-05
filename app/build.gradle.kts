@@ -2,6 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services") // Firebase
+
+    //vừa thêm đoạn 47.22
+    id("kotlin-kapt")
 }
 
 android {
@@ -60,10 +63,13 @@ dependencies {
 
 
     //vừa thêm đoạn 20:45
-    implementation("com.tbuonomo:viewpagerdotsindicator:4.3")
+    implementation ("com.tbuonomo:dotsindicator:5.1.0")
 
 
 
+    //vừa thêm đoạn 47.22
+    implementation("com.github.bumptech.glide:glide:4.15.1")
+    kapt("com.github.bumptech.glide:compiler:4.15.1")
 
 
 }
