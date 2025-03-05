@@ -60,7 +60,8 @@ dependencies {
 
 
     //vừa thêm đoạn 20:45
-    implementation("com.tbuonomo:dotsindicator:4.3")
+    implementation("com.tbuonomo:viewpagerdotsindicator:4.3")
+
 
 
 
