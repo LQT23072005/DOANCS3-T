@@ -3,6 +3,7 @@ package com.example.doancs3.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.doancs3.Model.CategoryModel
 import com.example.doancs3.Model.SliderModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,7 +18,42 @@ class MainViewModel () : ViewModel(){
 
     //_banner để chứa slidermodel và banners dùng chỉ đọc
     private val _banner = MutableLiveData<List<SliderModel>>()
+
+    private val _Category = MutableLiveData<MutableList<CategoryModel>>()
+
+
+
     val banners:LiveData<List<SliderModel>> = _banner
+
+    val categories:LiveData<MutableList<CategoryModel>> = _Category
+
+    fun loadCategory(){
+        val Ref=firebaseDatabase.getReference("Category")
+
+        //Lắng nghe sự thay đổi liên tục của dữ liệu trong node "Banner"
+        Ref.addValueEventListener(object :ValueEventListener{
+
+            //Xử lý dữ liệu khi có sự thay đổi
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var lists= mutableListOf<CategoryModel>()
+
+                //Lấy tất cả các dữ liệu con trong node "Banner".
+                for(childSnapshot in snapshot.children){
+                    val list=childSnapshot.getValue(CategoryModel::class.java)
+                    if(list!=null){
+                        lists.add(list)
+                    }
+                }
+                _Category.value= lists
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
+
+    }
 
    fun loadBanners(){
        //Lấy tham chiếu đến node "Banner" trong Firebase Realtime Database.

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
@@ -26,6 +27,17 @@ class MainActivity : BaseActivity() {
         setContentView(binding.root)
 
         initBanner()
+        initCategory()
+    }
+
+    private fun initCategory() {
+        binding.progressBarCategory.visibility=View.VISIBLE
+        viewModel.categories.observe(this, Observer{
+            binding.viewCategory.layoutManager=LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL,false)
+            binding.viewCategory.adapter=CategoryAdapter(it)
+            binding.progressBarCategory.visibility=View.GONE
+        })
+        viewModel.loadCategory()
     }
 
     private fun banners(image:List<SliderModel>){
