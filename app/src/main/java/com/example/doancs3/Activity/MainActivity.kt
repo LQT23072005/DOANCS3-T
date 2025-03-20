@@ -2,10 +2,6 @@ package com.example.doancs3.Activity
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,10 +9,10 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import com.example.doancs3.Adapter.SliderAdapter
 import com.example.doancs3.Model.SliderModel
-import com.example.doancs3.R
 import com.example.doancs3.ViewModel.MainViewModel
 import com.example.doancs3.databinding.ActivityMainBinding
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.doancs3.Adapter.CategoryAdapter
 import com.example.doancs3.Adapter.RecommendedAdapter
 
 
@@ -55,7 +51,7 @@ class MainActivity : BaseActivity() {
         binding.progressBarCategory.visibility=View.VISIBLE
         viewModel.categories.observe(this, Observer{
             binding.viewCategory.layoutManager=LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL,false)
-            binding.viewCategory.adapter=CategoryAdapter(it)
+            binding.viewCategory.adapter= CategoryAdapter(it)
             binding.progressBarCategory.visibility=View.GONE
         })
         viewModel.loadCategory()

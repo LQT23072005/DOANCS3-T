@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".Activity.UpImageActivity"
+            android:name=".Activity.DetailActivity"
             android:exported="true">
 
         </activity>

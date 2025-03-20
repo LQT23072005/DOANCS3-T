@@ -3,8 +3,10 @@ package com.example.doancs3.Adapter
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.doancs3.Activity.DetailActivity
 import com.example.doancs3.Model.ItemsModel
 import com.example.doancs3.databinding.ViewholderRecommendedBinding
 
@@ -37,7 +39,10 @@ class RecommendedAdapter(val items: MutableList<ItemsModel>) :
 
             // Xử lý sự kiện click vào item
             root.setOnClickListener {
-
+                val intent = Intent(holder.itemView.context, DetailActivity::class.java).apply {
+                    putExtra("object", item)
+                }
+                ContextCompat.startActivity(holder.itemView.context, intent , null)
             }
         }
     }
