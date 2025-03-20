@@ -16,6 +16,10 @@ import com.example.doancs3.Model.SliderModel
 import com.example.doancs3.R
 import com.example.doancs3.ViewModel.MainViewModel
 import com.example.doancs3.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.doancs3.Adapter.RecommendedAdapter
+
+
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -28,7 +32,24 @@ class MainActivity : BaseActivity() {
 
         initBanner()
         initCategory()
+        initRecommended()
     }
+
+    private fun initRecommended() {
+
+            binding.progressBarRecommend.visibility = View.VISIBLE
+
+            viewModel.recommended.observe(this, Observer {
+                binding.viewRecommendation.layoutManager = GridLayoutManager(this@MainActivity, 2)
+                binding.viewRecommendation.adapter = RecommendedAdapter(it)
+                binding.progressBarRecommend.visibility = View.GONE
+            })
+
+            viewModel.loadRecommended()
+        }
+
+
+
 
     private fun initCategory() {
         binding.progressBarCategory.visibility=View.VISIBLE

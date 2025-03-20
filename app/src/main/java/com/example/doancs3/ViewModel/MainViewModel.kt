@@ -4,88 +4,84 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.doancs3.Model.CategoryModel
+import com.example.doancs3.Model.ItemsModel
 import com.example.doancs3.Model.SliderModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
-//Kế thừa ViewModel, giúp duy trì dữ liệu ngay cả khi Activity bị thay đổi do xoay màn hình hoặc bị hủy và tạo lại.
-class MainViewModel () : ViewModel(){
+class MainViewModel : ViewModel() {
 
-    // Lấy thể hiện của Firebase Realtime Database để tương tác với cơ sở dữ liệu.
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
-    //_banner để chứa slidermodel và banners dùng chỉ đọc
     private val _banner = MutableLiveData<List<SliderModel>>()
+    val banners: LiveData<List<SliderModel>> = _banner
 
     private val _Category = MutableLiveData<MutableList<CategoryModel>>()
+    val categories: LiveData<MutableList<CategoryModel>> = _Category
 
+    private val _Recommended = MutableLiveData<MutableList<ItemsModel>>()
+    val recommended: LiveData<MutableList<ItemsModel>> = _Recommended
 
+    fun loadRecommended() {
+        val ref = firebaseDatabase.getReference("Items")
+        val query: Query = ref.orderByChild("showRecommended").equalTo(true)
 
-    val banners:LiveData<List<SliderModel>> = _banner
-
-    val categories:LiveData<MutableList<CategoryModel>> = _Category
-
-    fun loadCategory(){
-        val Ref=firebaseDatabase.getReference("Category")
-
-        //Lắng nghe sự thay đổi liên tục của dữ liệu trong node "Banner"
-        Ref.addValueEventListener(object :ValueEventListener{
-
-            //Xử lý dữ liệu khi có sự thay đổi
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                var lists= mutableListOf<CategoryModel>()
-
-                //Lấy tất cả các dữ liệu con trong node "Banner".
-                for(childSnapshot in snapshot.children){
-                    val list=childSnapshot.getValue(CategoryModel::class.java)
-                    if(list!=null){
-                        lists.add(list)
+                val lists = mutableListOf<ItemsModel>()
+                for (childSnapshot in snapshot.children) {
+                    val item = childSnapshot.getValue(ItemsModel::class.java)
+                    if (item != null) {
+                        lists.add(item)
                     }
                 }
-                _Category.value= lists
+                _Recommended.postValue(lists)
             }
 
             override fun onCancelled(error: DatabaseError) {
-
+                // Xử lý lỗi nếu cần
             }
-
         })
-
     }
 
-   fun loadBanners(){
-       //Lấy tham chiếu đến node "Banner" trong Firebase Realtime Database.
-       val Ref=firebaseDatabase.getReference("Banner")
+    fun loadCategory() {
+        val ref = firebaseDatabase.getReference("Category")
 
-       //Lắng nghe sự thay đổi liên tục của dữ liệu trong node "Banner"
-       Ref.addValueEventListener(object :ValueEventListener{
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lists = mutableListOf<CategoryModel>()
+                for (childSnapshot in snapshot.children) {
+                    val category = childSnapshot.getValue(CategoryModel::class.java)
+                    if (category != null) {
+                        lists.add(category)
+                    }
+                }
+                _Category.postValue(lists)
+            }
 
-           //Xử lý dữ liệu khi có sự thay đổi
-           override fun onDataChange(snapshot: DataSnapshot) {
-               var lists= mutableListOf<SliderModel>()
+            override fun onCancelled(error: DatabaseError) {
+                // Xử lý lỗi nếu cần
+            }
+        })
+    }
 
-               //Lấy tất cả các dữ liệu con trong node "Banner".
-               for(childSnapshot in snapshot.children){
-                   val list=childSnapshot.getValue(SliderModel::class.java)
-                   if(list!=null){
-                       lists.add(list)
-                   }
-               }
-               _banner.value= lists
-           }
+    fun loadBanners() {
+        val ref = firebaseDatabase.getReference("Banner")
 
-           override fun onCancelled(error: DatabaseError) {
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val lists = mutableListOf<SliderModel>()
+                for (childSnapshot in snapshot.children) {
+                    val banner = childSnapshot.getValue(SliderModel::class.java)
+                    if (banner != null) {
+                        lists.add(banner)
+                    }
+                }
+                _banner.postValue(lists)
+            }
 
-           }
-
-       })
-   }
+            override fun onCancelled(error: DatabaseError) {
+                // Xử lý lỗi nếu cần
+            }
+        })
+    }
 }
-
-
-//Code này định nghĩa MainViewModel, một lớp ViewModel trong Android
-// sử dụng Firebase Realtime Database để tải danh sách banner (SliderModel)
-// và lưu trữ chúng trong LiveData. Khi dữ liệu trong Firebase thay đổi,
-// LiveData tự động cập nhật UI nếu nó được quan sát trong Activity hoặc Fragment.
