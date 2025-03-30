@@ -1,3 +1,5 @@
+
+/*
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -77,7 +79,9 @@ dependencies {
 
 }
 
-/*
+ */
+
+
 
 plugins {
     id("com.android.application")
@@ -122,6 +126,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+
     }
 }
 
@@ -139,6 +144,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation("com.google.code.gson:gson:2.10.1")
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -155,4 +162,3 @@ dependencies {
 
 
 }
- */
