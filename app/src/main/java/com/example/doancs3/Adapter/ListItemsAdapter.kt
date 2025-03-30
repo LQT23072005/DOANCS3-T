@@ -8,19 +8,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.doancs3.Activity.DetailActivity
 import com.example.doancs3.Model.ItemsModel
-import com.example.doancs3.databinding.ViewholderListItemsBinding
+import com.example.doancs3.databinding.ViewholderListItemBinding
 
 class ListItemsAdapter (val items: MutableList<ItemsModel>) :
     RecyclerView.Adapter<ListItemsAdapter.Viewholder>() {
 
-    class Viewholder(val binding: ViewholderListItemsBinding) :
+    class Viewholder(val binding: ViewholderListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int): Viewholder {
         val binding =
-            ViewholderListItemsBinding.inflate(
+            ViewholderListItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
         return Viewholder(binding)
     }

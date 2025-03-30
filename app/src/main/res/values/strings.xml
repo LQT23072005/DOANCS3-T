@@ -20,5 +20,13 @@
     <string name="wishlist">Wishlist</string>
     <string name="cart">Cart</string>
     <string name="explorer">Explorer</string>
+    <string name="my_cart">My Cart</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="fee_delivery">Fee Delivery</string>
+    <string name="total_tax">Total tax</string>
+    <string name="total">Total</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="n_p_ti_n_v_o_donate_cho_tao_t_5_qu_tr_ng_nhi_u_1_t_n_l_a">Nạp tiền vào donate cho tao, \n ít! 5 quả trứng, nhiều! 1 tên lửa</string>
+    <string name="nh_ng_ai_y_u_anh_anh_kh_ng_th_c_n_c">Những ai yêu anh, anh không thể cản được</string>
 
 </resources>

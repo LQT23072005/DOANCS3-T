@@ -1,5 +1,6 @@
 package com.example.doancs3.ViewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -22,9 +23,34 @@ class MainViewModel : ViewModel() {
     val recommended: LiveData<MutableList<ItemsModel>> = _Recommended
 
 
-    fun loadFiltered(id:String) {
+//    fun loadFiltered(id:String) {
+//        val ref = firebaseDatabase.getReference("Items")
+//        val query: Query = ref.orderByChild("categoryId").equalTo(id)
+//
+//        query.addListenerForSingleValueEvent(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                val lists = mutableListOf<ItemsModel>()
+//                for (childSnapshot in snapshot.children) {
+//                    val item = childSnapshot.getValue(ItemsModel::class.java)
+//                    if (item != null) {
+//                        lists.add(item)
+//                    }
+//                }
+//                _Recommended.postValue(lists)
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                // Xử lý lỗi nếu cần
+//            }
+//        })
+//    }
+
+
+
+    fun loadFiltered(id: String) {
         val ref = firebaseDatabase.getReference("Items")
-        val query: Query = ref.orderByChild("categoryId").equalTo(id)
+        val categoryIdLong = id.toLongOrNull() ?: return // Nếu id không phải số, thoát hàm
+        val query: Query = ref.orderByChild("categoryId").equalTo(categoryIdLong.toDouble()) // Firebase cần Double cho number
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -35,11 +61,12 @@ class MainViewModel : ViewModel() {
                         lists.add(item)
                     }
                 }
+                Log.d("MainViewModel", "Filtered items for category $id: ${lists.size}")
                 _Recommended.postValue(lists)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Xử lý lỗi nếu cần
+                Log.e("MainViewModel", "Load filtered failed: ${error.message}")
             }
         })
     }
