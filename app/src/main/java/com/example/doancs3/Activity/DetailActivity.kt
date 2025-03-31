@@ -1,5 +1,6 @@
 package com.example.doancs3.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -64,7 +65,7 @@ class DetailActivity : BaseActivity(){
 
         }
         binding.backBtn.setOnClickListener { finish() }
-        binding.cartBtn.setOnClickListener {  }
+        binding.cartBtn.setOnClickListener { startActivity(Intent(this@DetailActivity, CartActivity::class.java)) }
 
     }
 }

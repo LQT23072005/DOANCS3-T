@@ -16,8 +16,9 @@ import com.example.doancs3.databinding.ActivityListItemsBinding
 class ListItemsActivity : BaseActivity() {
     private lateinit var binding: ActivityListItemsBinding
     private val viewModel = MainViewModel()
-    private var id:String =""
-    private var title:String=""
+    private var id: String = ""
+    private var title: String= ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListItemsBinding.inflate(layoutInflater)
@@ -30,9 +31,7 @@ class ListItemsActivity : BaseActivity() {
 
     private fun initList() {
      binding.apply {
-         binding.backBtn.setOnClickListener {
-             finish()
-         }
+         binding.backBtn.setOnClickListener { finish() }
          progressBarList.visibility= View.VISIBLE
          viewModel.recommended.observe(this@ListItemsActivity, Observer {
              viewList.layoutManager=GridLayoutManager(this@ListItemsActivity,2)
