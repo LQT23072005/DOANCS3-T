@@ -29,18 +29,21 @@ class ManagmentCart(val context: Context) {
     }
 
     fun minusItem(listFood: ArrayList<ItemsModel>, position: Int, listener: ChangeNumberItemsListener) {
-        if (listFood[position].numberInCart == 1) {
-            listFood.removeAt(position)
-        } else {
+        if (listFood[position].numberInCart > 1) {
             listFood[position].numberInCart--
+            tinyDB.putListObject("CartList", listFood)
+            listener.onChanged()
         }
-        tinyDB.putListObject("CartList", listFood)
-        listener.onChanged()
     }
 
     fun plusItem(listFood: ArrayList<ItemsModel>, position: Int, listener: ChangeNumberItemsListener) {
         listFood[position].numberInCart++
         tinyDB.putListObject("CartList", listFood)
+        listener.onChanged()
+    }
+
+    fun deleteItem(listFood: ArrayList<ItemsModel>, position: Int, listener: ChangeNumberItemsListener){
+        listFood.removeAt(position)
         listener.onChanged()
     }
 

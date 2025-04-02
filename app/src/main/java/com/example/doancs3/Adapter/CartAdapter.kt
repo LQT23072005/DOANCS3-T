@@ -54,6 +54,16 @@ class CartAdapter(
                 }
             })
         }
+
+
+        holder.binding.btndelte.setOnClickListener {  // Sửa từ plusCartBtn thành minusCartBtn
+            managmentCart.deleteItem(listItemSelected, position, object : ChangeNumberItemsListener {
+                override fun onChanged() {
+                    notifyDataSetChanged()
+                    changeNumberItemsListener.onChanged()
+                }
+            })
+        }
     }
 
     override fun getItemCount(): Int {

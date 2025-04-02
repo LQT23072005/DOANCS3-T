@@ -22,7 +22,7 @@ class SliderAdapter(private var sliderItems:List<SliderModel>, private  var view
         //có tác dụng gán lại Item:1 và làm mới adapter:2
         private var runnable = Runnable {
             sliderItems = sliderItems
-            notifyDataSetChanged()
+       //     notifyDataSetChanged() 
         }
 
 

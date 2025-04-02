@@ -90,18 +90,39 @@ class CartActivity : BaseActivity() {
         }
     }
 
-    private fun calculatorCart(){
+//    private fun calculatorCart(){
+//        val percentTax = 0.02
+//        val delivery = 10.0
+//        tax = Math.round((managerCart.getTotalFee() * percentTax)* 100) /100.0
+//        val itemTotal:Double = Math.round((managerCart.getTotalFee()* tax* delivery)*100)/100.0
+//        val total:Double =itemTotal + tax + delivery
+//        with(binding){
+//            totalFeeTxt.text = "$$itemTotal"
+//            taxTxt.text="$$tax"
+//            deliveryTxt.text="$$delivery"
+//            totalTxt.text="$$total"
+//        }
+//    }
+
+
+
+    private fun calculatorCart() {
         val percentTax = 0.02
         val delivery = 10.0
-        tax = Math.round((managerCart.getTotalFee() * percentTax)* 100) /100.0
-        val total =Math.round((managerCart.getTotalFee()* tax* delivery)*100)/100
-        val itemTotal = Math.round(managerCart.getTotalFee()*100)/100
+        tax = Math.round((managerCart.getTotalFee() * percentTax) * 100) / 100.0
+        val itemTotal: Double = Math.round((managerCart.getTotalFee() ) * 100) / 100.0
+        val total: Double = itemTotal + tax + delivery
 
-        with(binding){
-            totalFeeTxt.text = "$$itemTotal"
-            taxTxt.text="$$tax"
-            deliveryTxt.text="$$delivery"
-            totalTxt.text="$total"
+        // Sử dụng NumberFormat để định dạng số với dấu chấm phân cách phần nghìn
+        val formatter = java.text.NumberFormat.getNumberInstance(java.util.Locale("vi", "VN"))
+        formatter.minimumFractionDigits = 0 // Không hiển thị phần thập phân
+        formatter.maximumFractionDigits = 0 // Không hiển thị phần thập phân
+
+        with(binding) {
+            totalFeeTxt.text = "${formatter.format(itemTotal.toLong())}$"
+            taxTxt.text = "${formatter.format(tax.toLong())}$"
+            deliveryTxt.text = "${formatter.format(delivery.toLong())}$"
+            totalTxt.text = "${formatter.format(total.toLong())}$"
         }
     }
 }
