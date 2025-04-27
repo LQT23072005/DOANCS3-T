@@ -3,7 +3,6 @@ package com.example.doancs3.Activity
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -14,6 +13,8 @@ import com.example.doancs3.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
+
+
 class SignUpActivity : AppCompatActivity() {
 
     private lateinit var mAuth: FirebaseAuth
@@ -22,13 +23,11 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var btnlogin: Button
     private lateinit var btnChange: ImageButton
 
-
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_sign_up)
-
 
         edtlogin = findViewById(R.id.edtsignup_email)
         edtpass = findViewById(R.id.edtpassword)
@@ -36,11 +35,9 @@ class SignUpActivity : AppCompatActivity() {
         btnChange = findViewById(R.id.btn_Change)
         mAuth = FirebaseAuth.getInstance()
 
-
         btnlogin.setOnClickListener {
             val login = edtlogin.text.toString().trim()
             val pass = edtpass.text.toString().trim()
-
 
             if (login.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
@@ -61,12 +58,19 @@ class SignUpActivity : AppCompatActivity() {
             mAuth.createUserWithEmailAndPassword(login, pass)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d("Main", "CreateUserWithEmail:success")
                         val user: FirebaseUser? = mAuth.currentUser
-                        Toast.makeText(this, "ok rồi cu", Toast.LENGTH_SHORT).show()
+                        user?.sendEmailVerification()?.addOnCompleteListener { verifyTask ->
+                            if (verifyTask.isSuccessful) {
+                                Toast.makeText(this, "Đăng ký thành công! Vui lòng xác thực email.", Toast.LENGTH_LONG).show()
+                                mAuth.signOut() // Đăng xuất để người dùng không thể đăng nhập ngay
+                                startActivity(Intent(this, LoginActivity::class.java)) // Chuyển qua trang đăng nhập
+                                finish()
+                            } else {
+                                Toast.makeText(this, "Gửi email xác thực thất bại.", Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     } else {
-                        Log.d("Main", "CreateUserWithEmail:failed", task.exception)
-                        val errorMessage = task.exception?.message ?: "tạch rồi cu"
+                        val errorMessage = task.exception?.message ?: "Tạo tài khoản thất bại"
                         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }

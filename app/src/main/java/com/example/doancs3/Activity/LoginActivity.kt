@@ -1,6 +1,7 @@
 package com.example.doancs3.Activity
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,8 +11,6 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.doancs3.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -22,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var edtpass: EditText
     private lateinit var btnlogin: Button
     private lateinit var btnChange: ImageButton
+
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,17 +35,11 @@ class LoginActivity : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
 
         btnlogin.setOnClickListener {
-            var login = edtlogin.text.trim()
-            var pass = edtpass.text.trim()
+            val login = edtlogin.text.toString().trim()
+            val pass = edtpass.text.toString().trim()
 
-
-            if (login.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (pass.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập mật khẩu", Toast.LENGTH_SHORT).show()
+            if (login.isEmpty() || pass.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -54,26 +48,49 @@ class LoginActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
-            mAuth.signInWithEmailAndPassword(login.toString(), pass.toString())
+            mAuth.signInWithEmailAndPassword(login, pass)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d("Login", "signInWithEmail:success")
                         val user: FirebaseUser? = mAuth.currentUser
-                        Toast.makeText(this, "ok rồi cu", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, MainActivity::class.java))
-                        finish() // Ngăn quay lại LoginActivity
+                        if (user != null && user.isEmailVerified) {
+                            // ✅ Đăng nhập thành công
+                            Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, MainActivity::class.java))
+                            finish()
+                        } else {
+                            // ❌ Email chưa xác thực → hiển thị dialog hỏi gửi lại
+                            showVerificationDialog(user)
+                            mAuth.signOut() // Đăng xuất khỏi phiên chưa xác thực
+                        }
                     } else {
-                        Log.d("Login", "signInWithEmail:failed", task.exception)
-                        val errorMessage = task.exception?.message ?: "tạch rồi cu"
-                        Toast.makeText(this, "sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Sai email hoặc mật khẩu", Toast.LENGTH_SHORT).show()
                     }
                 }
         }
 
         btnChange.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
-            finish() // Ngăn quay lại LoginActivity
+            finish()
         }
+    }
+
+    private fun showVerificationDialog(user: FirebaseUser?) {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Email chưa xác thực")
+            .setMessage("Tài khoản của bạn chưa được xác thực. Bạn có muốn gửi lại email xác thực không?")
+            .setPositiveButton("Gửi email") { _, _ ->
+                user?.sendEmailVerification()
+                    ?.addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, "Đã gửi lại email xác thực. Vui lòng kiểm tra hộp thư.", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(this, "Gửi email xác thực thất bại.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+            }
+            .setNegativeButton("Hủy", null)
+            .create()
+
+        dialog.show()
     }
 }
