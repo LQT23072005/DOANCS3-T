@@ -19,8 +19,12 @@
             android:name=".Activity.SignUpActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.CartActivity"
             android:exported="false" />
+        <activity android:name=".Activity.MyOrderActivity" />
         <activity
             android:name=".Activity.ListItemsActivity"
             android:exported="false" />

@@ -5,7 +5,6 @@ import android.widget.Toast
 import com.example.doancs3.Helper.TinyDB
 import com.example.doancs3.Model.ItemsModel
 
-
 class ManagmentCart(val context: Context) {
 
     private val tinyDB = TinyDB(context)
@@ -28,6 +27,10 @@ class ManagmentCart(val context: Context) {
         return tinyDB.getListObject("CartList") ?: arrayListOf()
     }
 
+    fun setCartList(newCart: ArrayList<ItemsModel>) {
+        tinyDB.putListObject("CartList", newCart)
+    }
+
     fun minusItem(listFood: ArrayList<ItemsModel>, position: Int, listener: ChangeNumberItemsListener) {
         if (listFood[position].numberInCart > 1) {
             listFood[position].numberInCart--
@@ -42,8 +45,9 @@ class ManagmentCart(val context: Context) {
         listener.onChanged()
     }
 
-    fun deleteItem(listFood: ArrayList<ItemsModel>, position: Int, listener: ChangeNumberItemsListener){
+    fun deleteItem(listFood: ArrayList<ItemsModel>, position: Int, listener: ChangeNumberItemsListener) {
         listFood.removeAt(position)
+        tinyDB.putListObject("CartList", listFood)
         listener.onChanged()
     }
 
