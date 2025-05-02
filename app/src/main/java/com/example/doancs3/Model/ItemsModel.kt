@@ -3,16 +3,17 @@ package com.example.doancs3.Model
 import android.os.Parcel
 import android.os.Parcelable
 
+
 data class ItemsModel(
     var title: String = "",
     var description: String = "",
     var picUrl: ArrayList<String> = ArrayList(),
     var model: ArrayList<String> = ArrayList(),
-    var price: Long = 0L, // Thay Double thành Long để khớp với number từ Firebase
+    var price: Long = 0L,
     var rating: Double = 0.0,
     var numberInCart: Int = 0,
     var showRecommended: Boolean = false,
-    var categoryId: Long = 0L // Thay String thành Long để khớp với number từ Firebase
+    var categoryId: Long = 0L
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString().toString(),

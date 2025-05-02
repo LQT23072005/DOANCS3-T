@@ -65,6 +65,7 @@
                 android:drawablePadding="8dp"
                 android:textColor="@color/black"
                 android:maxLines="1"
+                android:inputType="textPassword"
                 />
 
 
@@ -86,7 +87,7 @@
                 android:layout_gravity="center"
                 android:padding="8dp"
                 android:layout_marginTop="15dp"
-                android:text="Sign Upứaddddddddad"
+                android:text="Sign Up"
                 android:textColor="@color/lavender"
                 />
 

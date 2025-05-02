@@ -42,6 +42,7 @@ class CartActivity : BaseActivity() {
         loadCartFromFirebase()
     }
 
+    //khởi tạo ds giỏ hàng
     private fun initCartList() {
         binding.viewCart.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.viewCart.adapter = CartAdapter(managerCart.getListCart(), this, object : ChangeNumberItemsListener {
@@ -56,6 +57,7 @@ class CartActivity : BaseActivity() {
         }
     }
 
+    //thiết lập các nút bấm
     private fun setVariable() {
         binding.apply {
             backBtn.setOnClickListener { finish() }
@@ -86,6 +88,7 @@ class CartActivity : BaseActivity() {
         }
     }
 
+    //lưu lên firebase
     private fun saveCartToFirebase() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val database = FirebaseDatabase.getInstance().reference
@@ -103,6 +106,7 @@ class CartActivity : BaseActivity() {
         }
     }
 
+    //đọc dữ liệu từ firebase
     private fun loadCartFromFirebase() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val database = FirebaseDatabase.getInstance().reference
@@ -132,6 +136,7 @@ class CartActivity : BaseActivity() {
                 }
             })
     }
+
 
     private fun saveOrderToFirebase() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return

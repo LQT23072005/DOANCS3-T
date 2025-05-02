@@ -7,26 +7,27 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="intro_title">Welcome to <font color="#39c7a5"> Digital Store </font>\n a <font color="#39c7a5"> Gateway </font>to the Latest Techs</string>
-    <string name="intro_sub_title" translatable="false"> Sign in to explore a wide range of cutting-edge \n
-        digital products Don\'t have an account yet? \n
-        Register now and enjoy a seamless \n
-        and secure shopping experience. </string>
-    <string name="signing">Alreadly have an account?<font color="#39c7a5"> Sign In</font></string>
-    <string name="recommendation">Recommendation</string>
+    <string name="intro_title">Chào mừng đến với <font color="#39c7a5"> HT Store </font>\n nơi có những sản phẩm công nghệ bạn cần</string>
+    <string name="intro_sub_title" translatable="false"> Đăng nhập để khám phá nhiều sản phẩm kỹ thuật số tiên tiến \n
+        digital products Bạn chưa có tài khoản? \n
+        Đăng ký ngay và tận hưởng trải nghiệm mua sắm liền mạch \n
+        và an toàn. </string>
+    <string name="signing">Bạn đã có tài khoản?<font color="#39c7a5"> Đăng nhập</font></string>
+    <string name="recommendation">Sản phẩm nổi bật</string>
     <string name="see_all">See All</string>
-    <string name="profile">Profile</string>
-    <string name="my_order">My Order</string>
+    <string name="profile">Tôi</string>
+    <string name="my_order">Đơn đã mua</string>
     <string name="wishlist">Wishlist</string>
-    <string name="cart">Cart</string>
-    <string name="explorer">Explorer</string>
-    <string name="my_cart">My Cart</string>
-    <string name="subtotal">Subtotal</string>
-    <string name="fee_delivery">Fee Delivery</string>
-    <string name="total_tax">Total tax</string>
-    <string name="total">Total</string>
-    <string name="payment_method">Payment Method</string>
-    <string name="n_p_ti_n_v_o_donate_cho_tao_t_5_qu_tr_ng_nhi_u_1_t_n_l_a">Nạp tiền vào donate cho tao, \n ít! 5 quả trứng, nhiều! 1 tên lửa</string>
-    <string name="nh_ng_ai_y_u_anh_anh_kh_ng_th_c_n_c">Những ai yêu anh, anh không thể cản được</string>
+    <string name="cart">Giỏ hàng</string>
+    <string name="explorer">Home</string>
+    <string name="my_cart">Giỏ hàng</string>
+    <string name="subtotal">Giá</string>
+    <string name="fee_delivery">Phi giao hàng</string>
+    <string name="total_tax">Thuế</string>
+    <string name="total">Tổng giá</string>
+    <string name="payment_method">Phương thức thanh toán</string>
+    <string name="n_p_ti_n_v_o_donate_cho_tao_t_5_qu_tr_ng_nhi_u_1_t_n_l_a">Thanh toán khi nhận hàng</string>
+    <string name="nh_ng_ai_y_u_anh_anh_kh_ng_th_c_n_c">Thanh toán qua các app ngân hàng</string>
+    <string name="danh_m_c">Danh mục</string>
 
 </resources>

@@ -214,7 +214,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:text="Cash"
+                            android:text="Tiền mặt"
                             android:textColor="@color/green"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -259,7 +259,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
-                            android:text="Bank Transfer"
+                            android:text="VNPay"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -282,7 +282,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@drawable/green_button_bg"
-                android:text="Check out"
+                android:text="Thanh toán"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -292,7 +292,7 @@
         android:id="@+id/emptyTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Your cart is empty"
+        android:text="Giỏ hàng của bạn trống"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/scrollView3"

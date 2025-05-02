@@ -62,17 +62,17 @@ class MainActivity : BaseActivity() {
         if (userId != null) {
             FirebaseDatabase.getInstance().getReference("Users/$userId/profile_name")
                 .get().addOnSuccessListener { snapshot ->
-                    val profileName = snapshot.getValue(String::class.java) ?: tinyDB.getString("profile_name") ?: "Quang Huy"
+                    val profileName = snapshot.getValue(String::class.java) ?: tinyDB.getString("profile_name") ?: "Khách hàng thân mến"
                     tinyDB.putString("profile_name", profileName)
-                    binding.textView2.text = profileName
+                    binding.nametitle.text = profileName
                     Log.d(TAG, "Profile name loaded: $profileName")
                 }.addOnFailureListener { e ->
                     Log.e(TAG, "Failed to load profile name: ${e.message}")
-                    binding.textView2.text = tinyDB.getString("profile_name") ?: "Quang Huy"
+                    binding.nametitle.text = tinyDB.getString("profile_name") ?: "Khách hàng thân mến"
                     Toast.makeText(this, "Failed to load profile name", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            binding.textView2.text = tinyDB.getString("profile_name") ?: "Quang Huy"
+            binding.nametitle.text = tinyDB.getString("profile_name") ?: "Khách hàng thân mến"
         }
     }
 
