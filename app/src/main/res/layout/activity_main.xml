@@ -55,7 +55,7 @@
                     app:srcCompat="@drawable/bell_icon" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/btnSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/search_icon" />
@@ -277,28 +277,6 @@
                         android:textSize="10sp" />
                 </LinearLayout>
 
-<!--                <LinearLayout-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_weight="0.2"-->
-<!--                    android:orientation="vertical">-->
-
-<!--                    <ImageView-->
-<!--                        android:layout_width="22dp"-->
-<!--                        android:layout_height="22dp"-->
-<!--                        android:layout_gravity="center"-->
-<!--                        android:layout_marginTop="8dp"-->
-<!--                        app:srcCompat="@drawable/btn_3" />-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="4dp"-->
-<!--                        android:text="@string/wishlist"-->
-<!--                        android:textAlignment="center"-->
-<!--                        android:textColor="@color/white"-->
-<!--                        android:textSize="10sp" />-->
-<!--                </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/orderBtn"

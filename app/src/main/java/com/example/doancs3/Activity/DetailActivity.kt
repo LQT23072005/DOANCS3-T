@@ -25,6 +25,7 @@ class DetailActivity : BaseActivity() {
     private lateinit var firebaseDatabase: DatabaseReference
     private lateinit var commentAdapter: CommentAdapter
     private val commentList = ArrayList<CommentModel>()
+    private var numberOrder = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,13 @@ class DetailActivity : BaseActivity() {
         setupCommentRecyclerView()
         loadComments()
 
+        // Xử lý thêm vào giỏ hàng
+        binding.addToCartBtn.setOnClickListener {
+            item.numberInCart = numberOrder
+            managmentCart.insertItem(item)
+        }
+
+        // Xử lý gửi bình luận
         binding.submitCommentBtn.setOnClickListener {
             val commentText = binding.commentInput.text.toString()
             if (commentText.isNotEmpty()) {
@@ -49,24 +57,33 @@ class DetailActivity : BaseActivity() {
         }
 
         binding.backBtn.setOnClickListener { finish() }
-
-        binding.cartBtn.setOnClickListener {
-            startActivity(Intent(this, CartActivity::class.java))
-        }
+        binding.cartBtn.setOnClickListener { startActivity(Intent(this, CartActivity::class.java)) }
     }
 
     private fun getBundle() {
         item = intent.getParcelableExtra("object")!!
 
-
-
-        itemId = intent.getStringExtra("itemKey") ?:  ""
+        itemId = intent.getStringExtra("itemKey") ?: ""
         Log.d("DetailActivity", "itemId: $itemId")
 
         binding.titleTxt.text = item.title
         binding.derscriptionTxt.text = item.description
         binding.priceTxt.text = "$${item.price}"
         binding.raitingTxt.text = "${item.rating} Rating"
+    }
+
+    private fun initList() {
+        val modelList = ArrayList<String>().apply { addAll(item.model) }
+        binding.modelList.adapter = SelectedModelAdapter(modelList)
+        binding.modelList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        val picList = ArrayList<String>().apply { addAll(item.picUrl) }
+        Glide.with(this).load(picList[0]).into(binding.img)
+
+        binding.picList.adapter = PicAdapter(picList) { selectedImageUrl ->
+            Glide.with(this).load(selectedImageUrl).into(binding.img)
+        }
+        binding.picList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
     }
 
     private fun setupCommentRecyclerView() {
@@ -101,20 +118,6 @@ class DetailActivity : BaseActivity() {
             })
     }
 
-    private fun initList() {
-        val modelList = ArrayList<String>().apply { addAll(item.model) }
-        binding.modelList.adapter = SelectedModelAdapter(modelList)
-        binding.modelList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-        val picList = ArrayList<String>().apply { addAll(item.picUrl) }
-        Glide.with(this).load(picList[0]).into(binding.img)
-
-        binding.picList.adapter = PicAdapter(picList) { selectedImageUrl ->
-            Glide.with(this).load(selectedImageUrl).into(binding.img)
-        }
-        binding.picList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-    }
-
     private fun saveCommentToFirebase(commentText: String) {
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         val userName = firebaseUser?.displayName ?: firebaseUser?.email ?: "Anonymous"
@@ -128,7 +131,7 @@ class DetailActivity : BaseActivity() {
 
         val commentsRef = firebaseDatabase.child("Items").child(itemId).child("comments")
 
-        // Dùng push() để cho phép comment nhiều lần
+        // Dùng push() để cho phép gửi nhiều bình luận
         commentsRef.push().setValue(comment)
             .addOnSuccessListener {
                 Toast.makeText(this@DetailActivity, "Bình luận đã được gửi", Toast.LENGTH_SHORT).show()
