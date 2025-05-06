@@ -82,6 +82,9 @@ dependencies {
 
     implementation("com.google.firebase:firebase-auth") //tích hợp đăng ký đăng nhập
 
+
+    implementation ("com.cloudinary:cloudinary-android:2.3.1") //up lên cloudinary
+
 }
 
 
@@ -168,4 +171,6 @@ dependencies {
 //    implementation("androidx.recyclerview:recyclerview:1.3.2")
 //
 //   implementation("com.google.firebase:firebase-auth") //tích hợp đăng ký đăng nhập
+
+//implementation ("com.cloudinary:cloudinary-android:2.3.1") //up lên cloudinary
 //}

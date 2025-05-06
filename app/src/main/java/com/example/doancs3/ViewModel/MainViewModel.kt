@@ -58,6 +58,7 @@ class MainViewModel : ViewModel() {
                 for (childSnapshot in snapshot.children) {
                     val item = childSnapshot.getValue(ItemsModel::class.java)
                     if (item != null) {
+                        item?.id = childSnapshot.key.toString()
                         lists.add(item)
                     }
                 }
@@ -82,6 +83,7 @@ class MainViewModel : ViewModel() {
                 for (childSnapshot in snapshot.children) {
                     val item = childSnapshot.getValue(ItemsModel::class.java)
                     if (item != null) {
+                        item.id = childSnapshot.key ?: ""
                         lists.add(item)
                     }
                 }

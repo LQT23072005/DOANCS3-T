@@ -95,6 +95,7 @@ class CategoryAdapter (val items:MutableList<CategoryModel>):
                    putExtra("id", item.id.toString())
                    putExtra("title", item.title)
 
+
                }
                ContextCompat.startActivity(holder.itemView.context,intent,null)
            },1000)

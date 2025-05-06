@@ -44,6 +44,7 @@ class ListItemsAdapter (val items: MutableList<ItemsModel>) :
             root.setOnClickListener {
                 val intent = Intent(holder.itemView.context, DetailActivity::class.java).apply {
                     putExtra("object", item)
+                    putExtra("itemKey", item.id)
                 }
                 ContextCompat.startActivity(holder.itemView.context, intent , null)
             }

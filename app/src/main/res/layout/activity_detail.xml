@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,77 +9,75 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
 
+            <!-- Header -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
                 android:layout_marginStart="16dp"
-               android:layout_marginEnd="16dp"
-                android:layout_height="match_parent">
+                android:layout_marginEnd="16dp">
 
                 <ImageView
                     android:id="@+id/backBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:layout_margin="8dp"
                     android:padding="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:srcCompat="@drawable/back" />
-
 
                 <ImageView
                     android:id="@+id/favBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/grey_bg"
                     android:layout_margin="8dp"
                     android:padding="8dp"
+                    android:background="@drawable/grey_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-
-
                     app:srcCompat="@drawable/fav_icon" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <!-- Main Image -->
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="match_parent"
                 android:layout_height="290dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/grey_bg"
                 tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
+            <!-- Image thumbnails -->
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="wrap_content"
                 android:id="@+id/pic_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:clipToPadding="false"
-                android:layout_marginTop="16dp"
-                android:layout_height="match_parent" />
+                android:layout_marginTop="16dp" />
 
+            <!-- Title and Price -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/titleTxt"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="title"
@@ -90,15 +89,15 @@
                     android:id="@+id/priceTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:textStyle="bold"
                     android:textSize="22sp"
                     android:text="$0" />
             </LinearLayout>
 
+            <!-- Product type and rating -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
@@ -106,7 +105,7 @@
 
                 <TextView
                     android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Loại sản phẩm"
@@ -129,34 +128,133 @@
                     android:textColor="@color/black"
                     android:text="5" />
             </LinearLayout>
+
+            <!-- Model list -->
             <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="wrap_content"
                 android:id="@+id/model_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:clipToPadding="false"
-                android:layout_marginTop="16dp"
-                android:layout_height="match_parent" />
+                android:clipToPadding="false" />
 
+            <!-- Description -->
             <TextView
                 android:id="@+id/derscriptionTxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:textColor="@color/darkGrey"
-                android:text="Mô tả" />
+                android:text="Mô tả"
+                android:textColor="@color/darkGrey" />
 
+            <!-- Comment input -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/comment_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical"
+                    android:background="@drawable/grey_bg"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Viết đánh giá của bạn"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/black" />
+
+                    <EditText
+                        android:id="@+id/commentInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/white_bg"
+                        android:hint="Nhập bình luận..."
+                        android:minHeight="40dp"
+                        android:padding="8dp"
+                        android:textColor="@color/black" />
+
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_margin="12dp"
+                        android:gravity="center_vertical">
+
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:numStars="5"
+                            android:stepSize="1.0"
+                            android:rating="5.0"
+                            android:scaleX="0.6"
+                            android:scaleY="0.6" />
+                        <ImageButton
+                            android:id="@+id/mediaPickBtn"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="16dp"
+
+                            android:src="@drawable/baseline_add_box_24"
+                            android:contentDescription="Chọn ảnh/video"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/submitCommentBtn"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="12dp"
+                            android:src="@drawable/baseline_send_24"
+                            android:contentDescription="Gửi đánh giá" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="Nhận xét khách hàng"
+                    android:textColor="@color/black" />
+
+                <!-- Comment List -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/model_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:clipToPadding="false"
+                        android:layout_marginTop="16dp" />
+            </LinearLayout>
+
+            <!-- Cart button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/addToCartBtn"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
@@ -173,10 +271,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/grey_bg"
                     app:srcCompat="@drawable/btn_2"
-                    app:tint="@color/black"
-
-                    />
-
+                    app:tint="@color/black" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
