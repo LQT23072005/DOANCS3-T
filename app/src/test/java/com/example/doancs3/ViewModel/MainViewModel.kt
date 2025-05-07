@@ -22,31 +22,6 @@ class MainViewModel : ViewModel() {
     private val _Recommended = MutableLiveData<MutableList<ItemsModel>>()
     val recommended: LiveData<MutableList<ItemsModel>> = _Recommended
 
-
-//    fun loadFiltered(id:String) {
-//        val ref = firebaseDatabase.getReference("Items")
-//        val query: Query = ref.orderByChild("categoryId").equalTo(id)
-//
-//        query.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val lists = mutableListOf<ItemsModel>()
-//                for (childSnapshot in snapshot.children) {
-//                    val item = childSnapshot.getValue(ItemsModel::class.java)
-//                    if (item != null) {
-//                        lists.add(item)
-//                    }
-//                }
-//                _Recommended.postValue(lists)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                // Xử lý lỗi nếu cần
-//            }
-//        })
-//    }
-
-
-
     fun loadFiltered(id: String) {
         val ref = firebaseDatabase.getReference("Items")
         val categoryIdLong = id.toLongOrNull() ?: return // Nếu id không phải số, thoát hàm
@@ -136,5 +111,34 @@ class MainViewModel : ViewModel() {
                 // Xử lý lỗi nếu cần
             }
         })
+    }
+
+
+
+    // Trong MainViewModel.kt
+    fun searchProducts(query: String): LiveData<List<ItemsModel>> {
+        val result = MutableLiveData<List<ItemsModel>>()
+
+        FirebaseDatabase.getInstance().getReference("Products")
+            .orderByChild("title")
+            .startAt(query)
+            .endAt(query + "\uf8ff")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val products = mutableListOf<ItemsModel>()
+                    for (productSnapshot in snapshot.children) {
+                        productSnapshot.getValue(ItemsModel::class.java)?.let {
+                            products.add(it)
+                        }
+                    }
+                    result.value = products
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Xử lý lỗi
+                }
+            })
+
+        return result
     }
 }

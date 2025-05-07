@@ -30,4 +30,8 @@
     <string name="nh_ng_ai_y_u_anh_anh_kh_ng_th_c_n_c">Thanh toán qua các app ngân hàng</string>
     <string name="danh_m_c">Danh mục</string>
 
+    <string name="search_hint">Tìm kiếm sản phẩm...</string>
+    <string name="no_results">Không tìm thấy kết quả</string>
+    <string name="min_characters">Vui lòng nhập ít nhất 2 ký tự</string>
+
 </resources>

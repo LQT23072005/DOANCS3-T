@@ -23,10 +23,6 @@ class CategoryAdapter (val items:MutableList<CategoryModel>):
 
     inner class Viewholder(val binding: ViewhoderCategoryBinding) :RecyclerView.ViewHolder(binding.root)
 
-
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
        val binding = ViewhoderCategoryBinding.inflate(LayoutInflater.from(parent.context),parent,false)
         return Viewholder(binding)

@@ -59,6 +59,11 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
+    implementation(fileTree(mapOf(
+        "dir" to "D:\\DOAN\\zalopaylib",
+        "include" to listOf("*.aar", "*.jar"),
+        "exclude" to listOf("")
+    )))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -84,6 +89,14 @@ dependencies {
 
 
     implementation ("com.cloudinary:cloudinary-android:2.3.1") //up lên cloudinary
+
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("commons-codec:commons-codec:1.14")
+
+
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.cashfree.pg:api:2.1.17")
 
 }
 
@@ -155,6 +168,11 @@ dependencies {
 //    implementation("com.google.code.gson:gson:2.10.1")
 //
 //    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
+//implementation(fileTree(mapOf(
+//    "dir" to "D:\\DOAN\\zalopaylib",
+//    "include" to listOf("*.aar", "*.jar"),
+//    "exclude" to listOf("")
+//)))
 //    testImplementation(libs.junit)
 //    androidTestImplementation(libs.androidx.junit)
 //    androidTestImplementation(libs.androidx.espresso.core)
@@ -173,4 +191,11 @@ dependencies {
 //   implementation("com.google.firebase:firebase-auth") //tích hợp đăng ký đăng nhập
 
 //implementation ("com.cloudinary:cloudinary-android:2.3.1") //up lên cloudinary
+
+//    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+//  implementation("commons-codec:commons-codec:1.14")
+//
+//implementation("com.squareup.retrofit2:retrofit:2.11.0")
+//implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+//implementation("com.cashfree.pg:api:2.1.17")
 //}

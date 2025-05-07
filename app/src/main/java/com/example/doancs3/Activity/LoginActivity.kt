@@ -53,12 +53,12 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         val user: FirebaseUser? = mAuth.currentUser
                         if (user != null && user.isEmailVerified) {
-                            // ✅ Đăng nhập thành công
+                            // Đăng nhập thành công
                             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this, MainActivity::class.java))
                             finish()
                         } else {
-                            // ❌ Email chưa xác thực → hiển thị dialog hỏi gửi lại
+                          //Email chưa xác thực → hiển thị dialog hỏi gửi lại
                             showVerificationDialog(user)
                             mAuth.signOut() // Đăng xuất khỏi phiên chưa xác thực
                         }

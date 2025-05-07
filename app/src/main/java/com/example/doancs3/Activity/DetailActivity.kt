@@ -24,6 +24,7 @@ class DetailActivity : BaseActivity() {
     private lateinit var managmentCart: ManagmentCart
     private lateinit var firebaseDatabase: DatabaseReference
     private lateinit var commentAdapter: CommentAdapter
+    private lateinit var auth: FirebaseAuth
     private val commentList = ArrayList<CommentModel>()
     private var numberOrder = 1
 
@@ -119,6 +120,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun saveCommentToFirebase(commentText: String) {
+
         val firebaseUser = FirebaseAuth.getInstance().currentUser
         val userName = firebaseUser?.displayName ?: firebaseUser?.email ?: "Anonymous"
 

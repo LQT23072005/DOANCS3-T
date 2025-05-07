@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var tinyDB: TinyDB
-    private var viewModel = MainViewModel()
+    private var viewModel = com.example.doancs3.ViewModel.MainViewModel()
     private lateinit var auth: FirebaseAuth
     private val TAG = "MainActivity"
 
@@ -48,6 +48,11 @@ class MainActivity : BaseActivity() {
         initCategory()
         initRecommended()
         initBottomMenu()
+
+        // Trong hàm onCreate của MainActivity
+//        binding.btnSearch.setOnClickListener {
+//            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+//        }
     }
 
     override fun onResume() {
@@ -207,4 +212,7 @@ class MainActivity : BaseActivity() {
         })
         viewModel.loadBanners()
     }
+
+
+
 }

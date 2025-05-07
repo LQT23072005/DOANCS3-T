@@ -15,7 +15,7 @@ import com.example.doancs3.databinding.ActivityListItemsBinding
 
 class ListItemsActivity : BaseActivity() {
     private lateinit var binding: ActivityListItemsBinding
-    private val viewModel = MainViewModel()
+    private val viewModel = com.example.doancs3.ViewModel.MainViewModel()
     private var id: String = ""
     private var title: String= ""
 
