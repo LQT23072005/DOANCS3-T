@@ -22,35 +22,44 @@ class MainViewModel : ViewModel() {
     private val _Recommended = MutableLiveData<MutableList<ItemsModel>>()
     val recommended: LiveData<MutableList<ItemsModel>> = _Recommended
 
+    private val _searchResults = MutableLiveData<List<ItemsModel>>(emptyList())
+    val searchResults: LiveData<List<ItemsModel>> = _searchResults
 
-//    fun loadFiltered(id:String) {
-//        val ref = firebaseDatabase.getReference("Items")
-//        val query: Query = ref.orderByChild("categoryId").equalTo(id)
-//
-//        query.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                val lists = mutableListOf<ItemsModel>()
-//                for (childSnapshot in snapshot.children) {
-//                    val item = childSnapshot.getValue(ItemsModel::class.java)
-//                    if (item != null) {
-//                        lists.add(item)
-//                    }
-//                }
-//                _Recommended.postValue(lists)
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                // Xử lý lỗi nếu cần
-//            }
-//        })
-//    }
+    private val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean> = _isLoading
 
+    fun searchProductsByName(query: String) {
+        _isLoading.value = true // Bắt đầu tải
+        val ref = firebaseDatabase.getReference("Items")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val items = mutableListOf<ItemsModel>()
+                for (itemSnapshot in snapshot.children) {
+                    val item = itemSnapshot.getValue(ItemsModel::class.java)
+                    item?.let {
+                        it.id = itemSnapshot.key ?: ""
+                        if (it.title.contains(query, ignoreCase = true)) {
+                            items.add(it)
+                        }
+                    }
+                }
+                _searchResults.value = items // Sử dụng value vì onDataChange chạy trên luồng chính
+                _isLoading.value = false // Kết thúc tải
+                Log.d("MainViewModel", "Found ${items.size} products for query: $query")
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("MainViewModel", "Search failed: ${error.message}")
+                _searchResults.value = emptyList()
+                _isLoading.value = false
+            }
+        })
+    }
 
     fun loadFiltered(id: String) {
         val ref = firebaseDatabase.getReference("Items")
-        val categoryIdLong = id.toLongOrNull() ?: return // Nếu id không phải số, thoát hàm
-        val query: Query = ref.orderByChild("categoryId").equalTo(categoryIdLong.toDouble()) // Firebase cần Double cho number
+        val categoryIdLong = id.toLongOrNull() ?: return
+        val query: Query = ref.orderByChild("categoryId").equalTo(categoryIdLong.toDouble())
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -58,7 +67,7 @@ class MainViewModel : ViewModel() {
                 for (childSnapshot in snapshot.children) {
                     val item = childSnapshot.getValue(ItemsModel::class.java)
                     if (item != null) {
-                        item?.id = childSnapshot.key.toString()
+                        item.id = childSnapshot.key.toString()
                         lists.add(item)
                     }
                 }
@@ -71,7 +80,6 @@ class MainViewModel : ViewModel() {
             }
         })
     }
-
 
     fun loadRecommended() {
         val ref = firebaseDatabase.getReference("Items")
@@ -91,7 +99,7 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Xử lý lỗi nếu cần
+                Log.e("MainViewModel", "Load recommended failed: ${error.message}")
             }
         })
     }
@@ -112,7 +120,7 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Xử lý lỗi nếu cần
+                Log.e("MainViewModel", "Load category failed: ${error.message}")
             }
         })
     }
@@ -133,7 +141,7 @@ class MainViewModel : ViewModel() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Xử lý lỗi nếu cần
+                Log.e("MainViewModel", "Load banners failed: ${error.message}")
             }
         })
     }
