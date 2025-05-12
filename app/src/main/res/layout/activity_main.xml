@@ -48,17 +48,27 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    app:srcCompat="@drawable/bell_icon" />
-
-                <ImageView
                     android:id="@+id/btnSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/search_icon" />
+
+                <SearchView
+                    android:id="@+id/searchView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:iconifiedByDefault="false"
+                    app:queryHint="Tìm kiếm sản phẩm..."
+                    app:closeIcon="@null" />
+
+                <Button
+                    android:id="@+id/btnSearchSubmit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tìm"
+                    android:visibility="gone" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -276,7 +286,6 @@
                         android:textColor="@color/white"
                         android:textSize="10sp" />
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:id="@+id/orderBtn"

@@ -18,13 +18,14 @@ import com.example.doancs3.databinding.ActivityMainBinding
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.doancs3.Adapter.CategoryAdapter
 import com.example.doancs3.Adapter.RecommendedAdapter
+import com.example.doancs3.Model.ItemsModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var tinyDB: TinyDB
-    private var viewModel = com.example.doancs3.ViewModel.MainViewModel()
+    private var viewModel = MainViewModel()
     private lateinit var auth: FirebaseAuth
     private val TAG = "MainActivity"
 
@@ -48,17 +49,75 @@ class MainActivity : BaseActivity() {
         initCategory()
         initRecommended()
         initBottomMenu()
-
-        // Trong hàm onCreate của MainActivity
-//        binding.btnSearch.setOnClickListener {
-//            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
-//        }
+        initSearch()
     }
 
     override fun onResume() {
         super.onResume()
         if (auth.currentUser != null && auth.currentUser!!.isEmailVerified) {
             loadProfileName()
+        }
+    }
+
+    private fun initSearch() {
+        // Khi nhấn icon tìm kiếm
+        binding.btnSearch.setOnClickListener {
+            binding.btnSearch.visibility = View.GONE
+            binding.searchView.visibility = View.VISIBLE
+            binding.btnSearchSubmit.visibility = View.VISIBLE
+            binding.searchView.requestFocus()
+        }
+
+        // Khi nhấn nút "Tìm"
+        binding.btnSearchSubmit.setOnClickListener {
+            val query = binding.searchView.query.toString().trim()
+            if (query.isNotEmpty()) {
+                // Gọi hàm tìm kiếm trong ViewModel
+                viewModel.searchProductsByName(query)
+
+                // Định nghĩa resultsObserver
+                val resultsObserver = object : Observer<List<ItemsModel>> {
+                    override fun onChanged(searchResults: List<ItemsModel>) {
+                        Log.d(TAG, "Observer received searchResults for query '$query': size=${searchResults.size}")
+                        if (searchResults.isNotEmpty()) {
+                            // Tạo Intent mới để chuyển sang ListItemsActivity
+                            val intent = Intent(this@MainActivity, ListItemsActivity::class.java).apply {
+                                putExtra("searchQuery", query)
+                                putParcelableArrayListExtra("searchResults", ArrayList(searchResults))
+                                // Xóa flags để giữ MainActivity trong stack
+                            }
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(this@MainActivity, "Không tìm thấy sản phẩm nào", Toast.LENGTH_SHORT).show()
+                        }
+                        // Gỡ resultsObserver
+                        viewModel.searchResults.removeObserver(this)
+                    }
+                }
+
+                // Định nghĩa loadingObserver
+                val loadingObserver = object : Observer<Boolean> {
+                    override fun onChanged(isLoading: Boolean) {
+                        if (!isLoading) {
+                            // Dữ liệu đã sẵn sàng, quan sát searchResults
+                            viewModel.searchResults.observe(this@MainActivity, resultsObserver)
+                            // Gỡ loadingObserver
+                            viewModel.isLoading.removeObserver(this)
+                        }
+                    }
+                }
+
+                // Quan sát isLoading
+                viewModel.isLoading.observe(this@MainActivity, loadingObserver)
+            } else {
+                Toast.makeText(this, "Vui lòng nhập tên sản phẩm", Toast.LENGTH_SHORT).show()
+            }
+
+            // Reset giao diện tìm kiếm
+            binding.searchView.setQuery("", false)
+            binding.searchView.visibility = View.GONE
+            binding.btnSearchSubmit.visibility = View.GONE
+            binding.btnSearch.visibility = View.VISIBLE
         }
     }
 
@@ -88,7 +147,7 @@ class MainActivity : BaseActivity() {
         binding.profileBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
         }
-        binding.orderBtn.setOnClickListener { // Thêm sự kiện cho nút My Order
+        binding.orderBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, MyOrderActivity::class.java))
         }
     }
@@ -98,6 +157,7 @@ class MainActivity : BaseActivity() {
         binding.viewRecommendation.layoutManager = GridLayoutManager(this@MainActivity, 2)
 
         viewModel.recommended.observe(this, Observer { items ->
+            binding.progressBarRecommend.visibility = View.GONE
             if (items.isNullOrEmpty()) {
                 Log.e(TAG, "Recommended items are empty")
                 Toast.makeText(this, "No recommended items available", Toast.LENGTH_SHORT).show()
@@ -118,7 +178,7 @@ class MainActivity : BaseActivity() {
                         description = "Gaming Laptop",
                         picUrl = arrayListOf("laptop_image"),
                         model = arrayListOf("Silver", "Black"),
-                        price = 1000L,
+                        price = 100L,
                         rating = 4.8,
                         numberInCart = 0,
                         showRecommended = true,
@@ -126,11 +186,9 @@ class MainActivity : BaseActivity() {
                     )
                 )
                 binding.viewRecommendation.adapter = RecommendedAdapter(dummyItems)
-                binding.progressBarRecommend.visibility = View.GONE
             } else {
                 Log.d(TAG, "Recommended items loaded: ${items.size}")
                 binding.viewRecommendation.adapter = RecommendedAdapter(items.toMutableList())
-                binding.progressBarRecommend.visibility = View.GONE
             }
         })
 
@@ -142,6 +200,7 @@ class MainActivity : BaseActivity() {
         binding.viewCategory.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
 
         viewModel.categories.observe(this, Observer { categories ->
+            binding.progressBarCategory.visibility = View.GONE
             if (categories.isNullOrEmpty()) {
                 Log.e(TAG, "Categories are empty")
                 Toast.makeText(this, "No categories available", Toast.LENGTH_SHORT).show()
@@ -158,21 +217,19 @@ class MainActivity : BaseActivity() {
                     )
                 )
                 binding.viewCategory.adapter = CategoryAdapter(dummyCategories)
-                binding.progressBarCategory.visibility = View.GONE
             } else {
                 Log.d(TAG, "Categories loaded: ${categories.size}")
                 binding.viewCategory.adapter = CategoryAdapter(categories.toMutableList())
-                binding.progressBarCategory.visibility = View.GONE
             }
         })
         viewModel.loadCategory()
     }
 
     private fun banners(image: List<SliderModel>) {
+        binding.progressBarSlider.visibility = View.GONE
         if (image.isEmpty()) {
             Log.e(TAG, "Banner images are empty")
             Toast.makeText(this, "No banner images available", Toast.LENGTH_SHORT).show()
-            binding.progressBarSlider.visibility = View.GONE
             return
         }
 
@@ -208,11 +265,7 @@ class MainActivity : BaseActivity() {
             } else {
                 banners(banners.toMutableList())
             }
-            binding.progressBarSlider.visibility = View.GONE
         })
         viewModel.loadBanners()
     }
-
-
-
 }
