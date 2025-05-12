@@ -33,5 +33,6 @@
     <string name="search_hint">Tìm kiếm sản phẩm...</string>
     <string name="no_results">Không tìm thấy kết quả</string>
     <string name="min_characters">Vui lòng nhập ít nhất 2 ký tự</string>
+    <string name="chat">Chat</string>
 
 </resources>

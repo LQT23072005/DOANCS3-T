@@ -150,6 +150,9 @@ class MainActivity : BaseActivity() {
         binding.orderBtn.setOnClickListener {
             startActivity(Intent(this@MainActivity, MyOrderActivity::class.java))
         }
+        binding.chatBtn.setOnClickListener {
+            startActivity(Intent(this@MainActivity, MyChatActivity::class.java))
+        }
     }
 
     private fun initRecommended() {
