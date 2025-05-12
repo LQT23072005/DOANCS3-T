@@ -149,9 +149,11 @@ class MyChatActivity : BaseActivity() {
                     Toast.makeText(this@MyChatActivity, "Bình luận đã được gửi", Toast.LENGTH_SHORT).show()
                     binding.txtMess.text.clear()
                 }
+
                 .addOnFailureListener {
                     Toast.makeText(this@MyChatActivity, "Lỗi khi gửi bình luận", Toast.LENGTH_SHORT).show()
                 }
+
     }
 
     }
