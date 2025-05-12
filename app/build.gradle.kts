@@ -59,11 +59,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
-    implementation(fileTree(mapOf(
-        "dir" to "D:\\DOAN\\zalopaylib",
-        "include" to listOf("*.aar", "*.jar"),
-        "exclude" to listOf("")
-    )))
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -168,11 +164,7 @@ dependencies {
 //    implementation("com.google.code.gson:gson:2.10.1")
 //
 //    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
-//implementation(fileTree(mapOf(
-//    "dir" to "D:\\DOAN\\zalopaylib",
-//    "include" to listOf("*.aar", "*.jar"),
-//    "exclude" to listOf("")
-//)))
+
 //    testImplementation(libs.junit)
 //    androidTestImplementation(libs.androidx.junit)
 //    androidTestImplementation(libs.androidx.espresso.core)

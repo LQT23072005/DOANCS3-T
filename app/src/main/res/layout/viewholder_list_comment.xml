@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp"
-    android:layout_marginStart="30dp"
+    android:layout_marginStart="4dp"
     android:layout_marginEnd="12dp"
     android:layout_marginBottom="12dp"
     android:layout_marginTop="12dp"
@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/imageView_comment"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="centerCrop"
             android:src="@drawable/baseline_account_circle_24"
 
@@ -43,6 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
+        android:layout_marginStart="8dp"
         android:text="Đây là nội dung nhận xét..."
         android:textSize="14sp" />
 

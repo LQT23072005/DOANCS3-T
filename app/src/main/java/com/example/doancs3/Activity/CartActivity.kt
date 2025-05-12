@@ -1,8 +1,6 @@
     package com.example.doancs3.Activity
 
-    import com.example.doancs3.Api.CreateOrder
-    import android.content.Intent
-    import android.content.pm.PackageManager
+
     import android.content.res.ColorStateList
     import android.os.Bundle
     import android.os.StrictMode
@@ -25,10 +23,7 @@
     import com.google.firebase.database.FirebaseDatabase
     import com.google.firebase.database.ValueEventListener
     import org.json.JSONObject
-        import vn.zalopay.sdk.Environment
-        import vn.zalopay.sdk.ZaloPayError
-        import vn.zalopay.sdk.ZaloPaySDK
-        import vn.zalopay.sdk.listeners.PayOrderListener
+
     import java.text.NumberFormat
     import java.util.Locale
 
@@ -47,8 +42,7 @@
             val policy = ThreadPolicy.Builder().permitAll().build()
             StrictMode.setThreadPolicy(policy)
 
-            // ZaloPay SDK Init
-            ZaloPaySDK.init(2553, Environment.SANDBOX)
+
 
             managerCart = ManagmentCart(this)
             tinyDB = TinyDB(this)
@@ -81,8 +75,8 @@
                         // Cash payment
                         saveOrderToFirebase()
                     } else {
-                        // ZaloPay payment
-                        processZaloPayPayment()
+                        //  payment
+                        saveOrderToFirebase()
                     }
                 }
 
@@ -114,88 +108,9 @@
             }
         }
 
-        private fun processZaloPayPayment() {
-            Log.d("ZaloPay", "Starting ZaloPay payment process")
-            if (!isZaloPayAppInstalled()) {
-                Log.e("ZaloPay", "ZaloPay app not installed")
-                runOnUiThread {
-                    Toast.makeText(
-                        this,
-                        "Ứng dụng ZaloPay chưa được cài đặt. Vui lòng cài đặt ZaloPay để tiếp tục.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                return
-            }
-            Log.d("ZaloPay", "ZaloPay app found, proceeding with payment")
-            val amount = (managerCart.getTotalFee() + tax + 10.0).toInt()
-            Log.d("ZaloPay", "Payment amount: $amount")
-            val orderApi = CreateOrder()
-            try {
-                val data: JSONObject = orderApi.createOrder(amount.toString())
-                Log.d("ZaloPay", "Full create order response: $data")
-                val code: String = data.getString("return_code")
-                Log.d("ZaloPay", "Return code: $code")
-                if (code == "1") {
-                    val token: String = data.getString("zp_trans_token")
-                    Log.d("ZaloPay", "Initiating payment with token: $token")
-                    Log.d("ZaloPay", "Using return URI: zalopay-sandbox://app")
-                    ZaloPaySDK.getInstance().payOrder(
-                        this,
-                        token,
-                        "demozpdk://app",
-                        object : PayOrderListener {
-                            override fun onPaymentSucceeded(transactionId: String, zpTransToken: String, appTransId: String) {
-                                Log.d("ZaloPay", "Payment succeeded: transactionId=$transactionId, zpTransToken=$zpTransToken, appTransId=$appTransId")
-                                runOnUiThread {
-                                    Toast.makeText(this@CartActivity, "Thanh toán thành công", Toast.LENGTH_SHORT).show()
-                                    saveOrderToFirebase()
-                                }
-                            }
 
-                            override fun onPaymentCanceled(zpTransToken: String, appTransId: String) {
-                                Log.d("ZaloPay", "Payment canceled: zpTransToken=$zpTransToken, appTransId=$appTransId")
-                                runOnUiThread {
-                                    Toast.makeText(this@CartActivity, "Thanh toán bị hủy", Toast.LENGTH_SHORT).show()
-                                }
-                            }
 
-                            override fun onPaymentError(zaloPayError: ZaloPayError, zpTransToken: String, appTransId: String) {
-                                Log.e("ZaloPay", "Payment error: ${zaloPayError.name}, message: ${zaloPayError.toString()}, zpTransToken=$zpTransToken, appTransId=$appTransId")
-                                runOnUiThread {
-                                    Toast.makeText(this@CartActivity, "Lỗi thanh toán: ${zaloPayError.name}", Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                        }
-                    )
-                } else {
-                    val message = data.optString("return_message", "Không thể tạo đơn hàng ZaloPay")
-                    Log.e("ZaloPay", "Create order failed: $message")
-                    runOnUiThread {
-                        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                Log.e("ZaloPay", "Error initiating payment: ${e.message}")
-                runOnUiThread {
-                    Toast.makeText(this, "Lỗi khi khởi tạo thanh toán ZaloPay: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
 
-        private fun isZaloPayAppInstalled(): Boolean {
-            return try {
-                val packageInfo = packageManager.getPackageInfo("vn.com.vng.zalopay.sbmc", 0)
-                Log.d("ZaloPay", "ZaloPay app is installed, version: ${packageInfo.versionName}")
-                true
-            } catch (e: PackageManager.NameNotFoundException) {
-                Log.e("ZaloPay", "ZaloPay app not found: ${e.message}")
-                false
-            } catch (e: Exception) {
-                Log.e("ZaloPay", "Unexpected error checking ZaloPay app: ${e.message}")
-                false
-            }
-        }
 
         private fun saveCartToFirebase() {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
@@ -292,8 +207,5 @@
             }
         }
 
-        override fun onNewIntent(intent: Intent) {
-            super.onNewIntent(intent)
-            ZaloPaySDK.getInstance().onResult(intent)
-        }
+
     }

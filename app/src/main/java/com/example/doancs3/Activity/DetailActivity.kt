@@ -122,25 +122,42 @@ class DetailActivity : BaseActivity() {
     private fun saveCommentToFirebase(commentText: String) {
 
         val firebaseUser = FirebaseAuth.getInstance().currentUser
-        val userName = firebaseUser?.displayName ?: firebaseUser?.email ?: "Anonymous"
+        val userEmail = firebaseUser?.email ?: "unknown@email.com"
 
-        val comment = CommentModel(
-            userName = userName,
-            commentText = commentText,
-            imageUrl = null,
-            videoUrl = null
-        )
-
-        val commentsRef = firebaseDatabase.child("Items").child(itemId).child("comments")
-
-        // Dùng push() để cho phép gửi nhiều bình luận
-        commentsRef.push().setValue(comment)
-            .addOnSuccessListener {
-                Toast.makeText(this@DetailActivity, "Bình luận đã được gửi", Toast.LENGTH_SHORT).show()
-                binding.commentInput.text.clear()
+        val usersRef = FirebaseDatabase.getInstance().getReference("Users")
+        usersRef.get().addOnSuccessListener { dataSnapshot ->
+            var userName = ""
+            for(userSnapshot  in dataSnapshot.children){
+                val authEmail = userSnapshot.child("auth_email").getValue(String::class.java)
+                if(authEmail == userEmail){
+                    userName = userSnapshot.child("profile_name").getValue(String::class.java) ?: ""
+                    break
+                }
             }
-            .addOnFailureListener {
-                Toast.makeText(this@DetailActivity, "Lỗi khi gửi bình luận", Toast.LENGTH_SHORT).show()
-            }
+
+            val comment = CommentModel(
+                userName = userName,
+                commentText = commentText,
+                imageUrl = null,
+                videoUrl = null
+            )
+
+            val commentsRef = firebaseDatabase.child("Items").child(itemId).child("comments")
+
+            // Dùng push() để cho phép gửi nhiều bình luận
+            commentsRef.push().setValue(comment)
+                .addOnSuccessListener {
+                    Toast.makeText(this@DetailActivity, "Bình luận đã được gửi", Toast.LENGTH_SHORT).show()
+                    binding.commentInput.text.clear()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this@DetailActivity, "Lỗi khi gửi bình luận", Toast.LENGTH_SHORT).show()
+                }
+        }
+
+
+
+
+
     }
 }
