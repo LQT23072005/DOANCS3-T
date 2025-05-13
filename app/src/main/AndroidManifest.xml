@@ -34,11 +34,19 @@
 
         <activity
             android:name=".Activity.CartActivity"
-            android:exported="true"
-           >
-
-
+            android:launchMode="singleTop"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="doancs3"
+                    android:host="return" />
+            </intent-filter>
         </activity>
+
+
 
 
 
